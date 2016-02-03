@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hashfile by msztolcman</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Hashfile</h1>
+        <p class="header">calculate hash or checksum in many formats</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/msztolcman/hashfile/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/msztolcman/hashfile/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/msztolcman/hashfile">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/msztolcman">msztolcman</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="hashfile" class="anchor" href="#hashfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>hashfile</h1>
+
+<p><code>hashfile</code> calculates hashes or checksums in many formats.</p>
+
+<p>Default algorithm is <code>sha1</code>. This can be changed by passing argument <code>-a</code>/<code>--algorithm</code> to <code>hashfile</code>, or by calling <code>hashfile</code> with
+algorithm name (ie. using symlinks).</p>
+
+<p><code>hashfile</code> works pretty well with big files, because always read data partially, by default 4MB of data at once (it can be changed using
+<code>--max-input-read</code> param).</p>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h2>
+
+<pre><code># simplest call
+% hashfile /etc/hosts
+sha1: 4f53fb6efebddfdbe989f3bff980cd07ebcdc6bb /etc/hosts
+
+# specify algorithm
+% hashfile -a md5 /etc/hosts
+md5: 71e875e9d194c18567f48cf9534ed6cf /etc/hosts
+
+# one file, many algorithms
+% hashfile -a md5 -a sha1 /etc/hosts /etc/hosts
+md5: 71e875e9d194c18567f48cf9534ed6cf /etc/hosts
+sha1: 4f53fb6efebddfdbe989f3bff980cd07ebcdc6bb /etc/hosts
+
+# many files, other algorithm for each one
+% hashfile -a md5 -a sha1 /etc/hosts /etc/shells
+md5: 71e875e9d194c18567f48cf9534ed6cf /etc/hosts
+sha1: e0de09cb8797a4d39f89049d74585e815a3c6ceb /etc/shells
+
+# many files, one algorithm
+% hashfile -a sha256 /etc/hosts /etc/shells
+sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/hosts
+sha256: edfd1953cce18ab14449b657fcc01ece6a43a7075bab7b451f3186b885c20998 /etc/shells
+
+# choose algorithm using symlinks
+% ln -s `which hashfile` ~/bin/sha256
+% sha256 /etc/hosts
+sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/hosts
+</code></pre>
+
+<h2>
+<a id="current-stable-version" class="anchor" href="#current-stable-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current stable version</h2>
+
+<p>1.0.0</p>
+
+<h2>
+<a id="python-version" class="anchor" href="#python-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python version</h2>
+
+<p><code>hashfile</code> works only with Python 2.7+.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Everything is in help :) Just execute:</p>
+
+<pre><code>hashfile --help
+</code></pre>
+
+<p>Look at result (remember: list of algorithms may differ on your system):</p>
+
+<pre><code>% hashfile --help
+usage: hashfile [-h]
+                [-a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}]
+                [--max-input-read MAX_INPUT_READ]
+                [file [file ...]]
+
+Calculate hash of some files
+
+positional arguments:
+  file                  list of files (stdin by default)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}, --algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}
+                        algorithm used to calculate hash If given more then
+                        one, then use different algorithms for different files
+                        (use first algo to first file, second algo to second
+                        file etc. If there is more files then algorithms, last
+                        algorithm from list is used.
+  --max-input-read MAX_INPUT_READ
+                        maximum data size for read at once
+
+Algorithm can be also set from program name (for example call program as sha1
+to use sha1 algorithm)
+</code></pre>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>Using PIP</li>
+</ol>
+
+<p><code>hashfile</code> should work on any platform where <a href="http://python.org">Python</a>
+is available, it means Linux, Windows, MacOS X etc. </p>
+
+<p>Simplest way is to use Python's built-in package system:</p>
+
+<pre><code>pip install hashfile
+</code></pre>
+
+<ol>
+<li>
+<p>Using <a href="https://github.com/mitsuhiko/pipsi">pipsi</a></p>
+
+<p>pipsi install hashfile</p>
+</li>
+<li><p>Using sources</p></li>
+</ol>
+
+<p>Download sources from <a href="https://github.com/msztolcman/hashfile/archive/1.0.0.zip">Github</a>:</p>
+
+<pre><code>wget -O 1.0.0.zip https://github.com/msztolcman/hashfile/archive/1.0.0.zip
+</code></pre>
+
+<p>or</p>
+
+<pre><code>curl -o 1.0.0.zip https://github.com/msztolcman/hashfile/archive/1.0.0.zip
+</code></pre>
+
+<p>Unpack:</p>
+
+<pre><code>unzip 1.0.0.zip
+</code></pre>
+
+<p>And install</p>
+
+<pre><code>cd hashfile-1.0.0
+python setup.py install
+</code></pre>
+
+<p>Voila!</p>
+
+<h2>
+<a id="authors" class="anchor" href="#authors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors</h2>
+
+<p>Marcin Sztolcman <a href="mailto:marcin@urzenia.net">marcin@urzenia.net</a></p>
+
+<h2>
+<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h2>
+
+<p>If you like or dislike this software, please do not hesitate to tell me about
+this me via email (<a href="mailto:marcin@urzenia.net">marcin@urzenia.net</a>).</p>
+
+<p>If you find bug or have an idea to enhance this tool, please use GitHub's
+<a href="https://github.com/msztolcman/hashfile/issues">issues</a>.</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>The MIT License (MIT)</p>
+
+<p>Copyright (c) 2012 Marcin Sztolcman</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+<h2>
+<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ChangeLog</h2>
+
+<h3>
+<a id="v100" class="anchor" href="#v100" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v1.0.0</h3>
+
+<ul>
+<li>First public version</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-207617-22");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
