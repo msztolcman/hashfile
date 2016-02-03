@@ -14,47 +14,35 @@ partially, by default 4MB of data at once (it can be changed using
 Examples
 --------
 
-simplest call
-=============
+::
 
-% hashfile /etc/hosts sha1: 4f53fb6efebddfdbe989f3bff980cd07ebcdc6bb
-/etc/hosts
+    # simplest call
+    % hashfile /etc/hosts
+    sha1: 4f53fb6efebddfdbe989f3bff980cd07ebcdc6bb /etc/hosts
 
-specify algorithm
-=================
+    # specify algorithm
+    % hashfile -a md5 /etc/hosts
+    md5: 71e875e9d194c18567f48cf9534ed6cf /etc/hosts
 
-% hashfile -a md5 /etc/hosts md5: 71e875e9d194c18567f48cf9534ed6cf
-/etc/hosts
+    # one file, many algorithms
+    % hashfile -a md5 -a sha1 /etc/hosts /etc/hosts
+    md5: 71e875e9d194c18567f48cf9534ed6cf /etc/hosts
+    sha1: 4f53fb6efebddfdbe989f3bff980cd07ebcdc6bb /etc/hosts
 
-one file, many algorithms
-=========================
+    # many files, other algorithm for each one
+    % hashfile -a md5 -a sha1 /etc/hosts /etc/shells
+    md5: 71e875e9d194c18567f48cf9534ed6cf /etc/hosts
+    sha1: e0de09cb8797a4d39f89049d74585e815a3c6ceb /etc/shells
 
-% hashfile -a md5 -a sha1 /etc/hosts /etc/hosts md5:
-71e875e9d194c18567f48cf9534ed6cf /etc/hosts sha1:
-4f53fb6efebddfdbe989f3bff980cd07ebcdc6bb /etc/hosts
+    # many files, one algorithm
+    % hashfile -a sha256 /etc/hosts /etc/shells
+    sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/hosts
+    sha256: edfd1953cce18ab14449b657fcc01ece6a43a7075bab7b451f3186b885c20998 /etc/shells
 
-many files, other algorithm for each one
-========================================
-
-% hashfile -a md5 -a sha1 /etc/hosts /etc/shells md5:
-71e875e9d194c18567f48cf9534ed6cf /etc/hosts sha1:
-e0de09cb8797a4d39f89049d74585e815a3c6ceb /etc/shells
-
-many files, one algorithm
-=========================
-
-% hashfile -a sha256 /etc/hosts /etc/shells sha256:
-48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a
-/etc/hosts sha256:
-edfd1953cce18ab14449b657fcc01ece6a43a7075bab7b451f3186b885c20998
-/etc/shells
-
-choose algorithm using symlinks
-===============================
-
-% ln -s ``which hashfile`` ~/bin/sha256 % sha256 /etc/hosts sha256:
-48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a
-/etc/hosts
+    # choose algorithm using symlinks
+    % ln -s `which hashfile` ~/bin/sha256
+    % sha256 /etc/hosts
+    sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/hosts
 
 Current stable version
 ----------------------
