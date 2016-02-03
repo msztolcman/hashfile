@@ -1,0 +1,159 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Simple utility to calculate different types of hashes from given files/data
+"""
+
+from __future__ import print_function, unicode_literals
+
+import argparse
+import hashlib
+import os
+import sys
+import zlib
+
+__version__ = '1.0.0'
+
+MAX_INPUT_READ = 4*1024**2
+DEFAULT_ALGORITHM = 'sha1'
+
+
+# pylint: disable=missing-docstring
+def _get_available_hash_algorithms():
+    try:
+        available = hashlib.algorithms_available
+    except AttributeError:
+        try:
+            available = set(hashlib.algorithms)
+        except AttributeError:
+            available = {'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512'}
+
+    aliases = {
+        'sha1': {'DSA', 'DSA-SHA', 'dsaEncryption', 'dsaWithSHA', 'ecdsa-with-SHA1'}
+    }
+
+    for name in aliases:
+        if name in available:
+            available -= aliases[name]
+
+    to_remove = set()
+    for algo in available:
+        lowered = algo.lower()
+        if algo != lowered and lowered in available:
+            to_remove.add(algo)
+
+    available -= to_remove
+    return available
+
+AVAILABLE_HASH_ALGORITHMS = _get_available_hash_algorithms()
+AVAILABLE_CHECKSUM_ALGORITHMS = {'crc32', 'adler32'}
+AVAILABLE_ALGORITHMS = sorted(AVAILABLE_HASH_ALGORITHMS | AVAILABLE_CHECKSUM_ALGORITHMS)
+
+
+def checksum_file(file_path, algo, max_input_read=4*1024**2):
+    """
+    Calculate checksum
+    :param file_path: path or '-' for STDIN
+    :param algo:
+    :param max_input_read:
+    :return:
+    """
+    if algo not in AVAILABLE_CHECKSUM_ALGORITHMS:
+        raise ValueError("Unknown algorithm: %s" % algo)
+
+    value = 0
+    hasher = getattr(zlib, algo)
+
+    fh = open(file_path, 'rb') if file_path != '-' else sys.stdin
+    while True:
+        data = fh.read(max_input_read)
+        if not len(data):
+            break
+
+        value = hasher(data, value)
+
+    if file_path != '-':
+        fh.close()
+
+    value = value & 0xffffffff
+    return hex(value)[2:]
+
+
+def hash_file(file_path, algo, max_input_read=4*1024**2):
+    """
+    Calculate hash
+    :param file_path: path or '-' for STDIN
+    :param algo:
+    :param max_input_read:
+    :return:
+    """
+    hasher = hashlib.new(algo)
+
+    fh = open(file_path, 'rb') if file_path != '-' else sys.stdin
+    while True:
+        data = fh.read(max_input_read)
+        if not len(data):
+            break
+
+        hasher.update(data)
+
+    if file_path != '-':
+        fh.close()
+
+    return hasher.hexdigest()
+
+
+def _get_file_helpers():
+    helpers = {algo: hash_file for algo in AVAILABLE_HASH_ALGORITHMS}
+    helpers.update({algo: checksum_file for algo in AVAILABLE_CHECKSUM_ALGORITHMS})
+    return helpers
+
+FILE_HELPERS = _get_file_helpers()
+
+
+# pylint: disable=missing-docstring
+def main():
+    parser = argparse.ArgumentParser(description='Calculate hash of some files',
+        epilog='Algorithm can be also set from program name (for example call program as sha1 to use sha1 algorithm)')
+    parser.add_argument('-a', '--algorithm', default=[], action='append', choices=AVAILABLE_ALGORITHMS,
+        help='algorithm used to calculate hash '
+             'If given more then one, then use different algorithms for different files (use first algo to first '
+             'file, second algo to second file etc. If there is more files then algorithms, last algorithm from '
+             'list is used.')
+    parser.add_argument('--max-input-read', default=MAX_INPUT_READ,
+        help='maximum data size for read at once')
+    parser.add_argument('files', metavar='file', type=str, nargs='*',
+        help='list of files (stdin by default)')
+
+    args = parser.parse_args()
+
+    if len(args.algorithm) > 0:
+        algorithms = args.algorithm
+    elif os.path.basename(sys.argv[0]) in AVAILABLE_ALGORITHMS:
+        algorithms = [os.path.basename(sys.argv[0]), ]
+    else:
+        algorithms = [DEFAULT_ALGORITHM, ]
+
+    if not args.files:
+        filenames = ['-']
+    # PYTHON2
+    elif hasattr(args.files[0], 'decode'):
+        filenames = [filename.decode('utf-8') for filename in args.files]
+    # PYTHON3
+    else:
+        filenames = args.files
+
+    for i, filename in enumerate(filenames):
+        algo = algorithms[i] if len(algorithms) > i else algorithms[-1]
+
+        file_helper = FILE_HELPERS[algo]
+        try:
+            filehash = file_helper(filename, algo=algo, max_input_read=args.max_input_read)
+        except (OSError, IOError) as exc:
+            print('ERROR: %s %s' % (filename, str(exc)), file=sys.stderr)
+        else:
+            print('%s: %s %s' % (algo, filehash, filename))
+
+if __name__ == '__main__':
+    main()

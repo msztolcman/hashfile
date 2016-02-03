@@ -1,0 +1,50 @@
+[versionner]
+file = ./VERSION
+;up_part= patch
+;default_init_version = 1.0.0
+;default_increase_value = 1
+
+[vcs]
+engine = git
+tag = yes
+tag_params =
+commit_message = '%(version)s'
+
+[file:hashfile]
+enabled = true
+match = line
+search = ^\s*__version__\s*=.*$
+replace = __version__ = '%(version)s'
+
+[file:setup.py]
+enabled = true
+match = line
+search = \bversion\s*=.*$
+replace = version='%(version)s',
+encoding = utf-8
+
+[file:README.md]
+enabled = true
+match = file
+search = \nCurrent stable version
+    ----------------------
+    \s+[\w.-]+\n
+replace = \nCurrent stable version
+    ----------------------
+
+    %(version)s\n
+encoding = utf-8
+
+[file:2:README.md]
+enabled = true
+match = line
+search = \b\d+\.\d+\.\d+\.zip\b
+replace = %(version)s.zip
+encoding = utf-8
+
+[file:3:README.md]
+enabled = true
+match = line
+search = \bcd hashfile-\d+\.\d+\.\d+\b
+replace = cd hashfile-%(version)s
+encoding = utf-8
