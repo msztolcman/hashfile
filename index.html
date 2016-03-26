@@ -33,7 +33,7 @@
         <h1>
 <a id="hashfile" class="anchor" href="#hashfile" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>hashfile</h1>
 
-<p><code>hashfile</code> calculates hashes or checksums in many formats.</p>
+<p><code>hashfile</code> calculates hashes or checksums in many formats, also verify them.</p>
 
 <p>Default algorithm is <code>sha1</code>. This can be changed by passing argument <code>-a</code>/<code>--algorithm</code> to <code>hashfile</code>, or by calling <code>hashfile</code> with
 algorithm name (ie. using symlinks).</p>
@@ -71,17 +71,23 @@ sha256: edfd1953cce18ab14449b657fcc01ece6a43a7075bab7b451f3186b885c20998 /etc/sh
 % ln -s `which hashfile` ~/bin/sha256
 % sha256 /etc/hosts
 sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/hosts
+
+# create verify file, and then verify
+% hashfile -a sha256 README.* &gt; check.sum
+% hashfile -c check.sum
+README.md: OK
+README.rst: OK
 </code></pre>
 
 <h2>
 <a id="current-stable-version" class="anchor" href="#current-stable-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current stable version</h2>
 
-<p>1.0.0</p>
+<p>2.0.0</p>
 
 <h2>
 <a id="python-version" class="anchor" href="#python-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python version</h2>
 
-<p><code>hashfile</code> works only with Python 2.7+.</p>
+<p><code>hashfile</code> works with Python 2.7+ and 3.3+.</p>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
@@ -91,27 +97,34 @@ sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/ho
 <pre><code>hashfile --help
 </code></pre>
 
-<p>Look at result (remember: list of algorithms may differ on your system):</p>
+<p>Look at result (remember: list of algorithms may vary on your system):</p>
 
 <pre><code>% hashfile --help
 usage: hashfile [-h]
-                [-a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}]
-                [--max-input-read MAX_INPUT_READ]
-                [file [file ...]]
+                [--algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}]
+                [--generate-algo-symlinks] [--check] [--quiet] [--status]
+                [--warn] [--max-input-read MAX_INPUT_READ]
+                [FILE [FILE ...]]
 
 Calculate hash of some files
 
 positional arguments:
-  file                  list of files (stdin by default)
+  FILE                  list of files (stdin by default)
 
 optional arguments:
   -h, --help            show this help message and exit
-  -a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}, --algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}
+  --algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}, -a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}
                         algorithm used to calculate hash If given more then
                         one, then use different algorithms for different files
                         (use first algo to first file, second algo to second
                         file etc. If there is more files then algorithms, last
                         algorithm from list is used.
+  --generate-algo-symlinks
+                        Show aliases for every algorithm handled by hashfile
+  --check, -c           read checksums from the FILEs and check them
+  --quiet, -q           don't print OK for each successfully verified file
+  --status, -s          don't output anything, status code shows success
+  --warn, -w            warn about improperly formatted checksum lines
   --max-input-read MAX_INPUT_READ
                         maximum data size for read at once
 
@@ -143,24 +156,24 @@ is available, it means Linux, Windows, MacOS X etc. </p>
 <li><p>Using sources</p></li>
 </ol>
 
-<p>Download sources from <a href="https://github.com/msztolcman/hashfile/archive/1.0.0.zip">Github</a>:</p>
+<p>Download sources from <a href="https://github.com/msztolcman/hashfile/archive/2.0.0.zip">Github</a>:</p>
 
-<pre><code>wget -O 1.0.0.zip https://github.com/msztolcman/hashfile/archive/1.0.0.zip
+<pre><code>wget -O 2.0.0.zip https://github.com/msztolcman/hashfile/archive/2.0.0.zip
 </code></pre>
 
 <p>or</p>
 
-<pre><code>curl -o 1.0.0.zip https://github.com/msztolcman/hashfile/archive/1.0.0.zip
+<pre><code>curl -o 2.0.0.zip https://github.com/msztolcman/hashfile/archive/2.0.0.zip
 </code></pre>
 
 <p>Unpack:</p>
 
-<pre><code>unzip 1.0.0.zip
+<pre><code>unzip 2.0.0.zip
 </code></pre>
 
 <p>And install</p>
 
-<pre><code>cd hashfile-1.0.0
+<pre><code>cd hashfile-2.0.0
 python setup.py install
 </code></pre>
 
@@ -206,6 +219,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 
 <h2>
 <a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ChangeLog</h2>
+
+<h3>
+<a id="v200" class="anchor" href="#v200" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v2.0.0</h3>
+
+<ul>
+<li>added compatibility with tools like md5sum or sha1sum (verify mode,
+call arguments compatibility, etc) </li>
+</ul>
 
 <h3>
 <a id="v100" class="anchor" href="#v100" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v1.0.0</h3>
