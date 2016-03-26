@@ -1,7 +1,8 @@
 hashfile
 ========
 
-``hashfile`` calculates hashes or checksums in many formats.
+``hashfile`` calculates hashes or checksums in many formats, also verify
+them.
 
 Default algorithm is ``sha1``. This can be changed by passing argument
 ``-a``/``--algorithm`` to ``hashfile``, or by calling ``hashfile`` with
@@ -44,6 +45,12 @@ Examples
     % sha256 /etc/hosts
     sha256: 48127a192d62fdcaa39f7cebd1ea5f3fe660807c8cd3a92599406d16bddc341a /etc/hosts
 
+    # create verify file, and then verify
+    % hashfile -a sha256 README.* > check.sum
+    % hashfile -c check.sum
+    README.md: OK
+    README.rst: OK
+
 Current stable version
 ----------------------
 
@@ -52,7 +59,7 @@ Current stable version
 Python version
 --------------
 
-``hashfile`` works only with Python 2.7+.
+``hashfile`` works with Python 2.7+ and 3.3+.
 
 Usage
 -----
@@ -63,29 +70,36 @@ Everything is in help :) Just execute:
 
     hashfile --help
 
-Look at result (remember: list of algorithms may differ on your system):
+Look at result (remember: list of algorithms may vary on your system):
 
 ::
 
     % hashfile --help
     usage: hashfile [-h]
-                    [-a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}]
-                    [--max-input-read MAX_INPUT_READ]
-                    [file [file ...]]
+                    [--algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}]
+                    [--generate-algo-symlinks] [--check] [--quiet] [--status]
+                    [--warn] [--max-input-read MAX_INPUT_READ]
+                    [FILE [FILE ...]]
 
     Calculate hash of some files
 
     positional arguments:
-      file                  list of files (stdin by default)
+      FILE                  list of files (stdin by default)
 
     optional arguments:
       -h, --help            show this help message and exit
-      -a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}, --algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}
+      --algorithm {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}, -a {adler32,crc32,md4,md5,mdc2,ripemd160,sha,sha1,sha224,sha256,sha384,sha512,whirlpool}
                             algorithm used to calculate hash If given more then
                             one, then use different algorithms for different files
                             (use first algo to first file, second algo to second
                             file etc. If there is more files then algorithms, last
                             algorithm from list is used.
+      --generate-algo-symlinks
+                            Show aliases for every algorithm handled by hashfile
+      --check, -c           read checksums from the FILEs and check them
+      --quiet, -q           don't print OK for each successfully verified file
+      --status, -s          don't output anything, status code shows success
+      --warn, -w            warn about improperly formatted checksum lines
       --max-input-read MAX_INPUT_READ
                             maximum data size for read at once
 
@@ -183,6 +197,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ChangeLog
 ---------
+
+v2.0.0
+~~~~~~
+
+-  added compatibility with tools like md5sum or sha1sum (verify mode,
+   call arguments compatibility, etc)
 
 v1.0.0
 ~~~~~~
