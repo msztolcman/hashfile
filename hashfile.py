@@ -29,6 +29,7 @@ E_FAIL_NO_FILES = 2
 VERIFICATION_OK = 'OK'
 VERIFICATION_FAIL = 'FAILED'
 
+
 # pylint: disable=missing-docstring
 def _get_available_hash_algorithms():
     try:
@@ -256,8 +257,6 @@ def parse_args(argv):
              'If given more then one, then use different algorithms for different files (use first algo to first '
              'file, second algo to second file etc. If there is more files then algorithms, last algorithm from '
              'list is used.')
-    parser.add_argument('--mode', action='store_const', const='calculate', default='calculate',
-        help='')
     parser.add_argument('--generate-algo-symlinks', action='store_const', dest='mode', const='generate-algo-symlinks',
         help='Show aliases for every algorithm handled by hashfile')
     # http://linux.die.net/man/1/md5sum
@@ -274,9 +273,12 @@ def parse_args(argv):
     parser.add_argument('files', metavar='file', type=str, nargs='*',
         help='list of files (stdin by default)')
 
+    parser.set_defaults(mode='calculate')
+
     args = parser.parse_args()
 
-    if not args.mode == 'check' and (args.quiet or args.status or args.warn):
+
+    if args.mode != 'check' and (args.quiet or args.status or args.warn):
         parser.error('--quiet, --status and --warn options are available only with --check option')
 
     if len(args.algorithm) == 0:
