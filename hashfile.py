@@ -261,16 +261,16 @@ def parse_args(argv):
         help='Show aliases for every algorithm handled by hashfile')
     # http://linux.die.net/man/1/md5sum
     parser.add_argument('--check', '-c', action='store_const', dest='mode', const='check',
-        help='')
+        help='read checksums from the FILEs and check them ')
     parser.add_argument('--quiet', '-q', action='store_true',
-        help='')
+        help='don\'t print OK for each successfully verified file')
     parser.add_argument('--status', '-s', action='store_true',
-        help='')
+        help='don\'t output anything, status code shows success')
     parser.add_argument('--warn', '-w', action='store_true',
-        help='')
+        help='warn about improperly formatted checksum lines')
     parser.add_argument('--max-input-read', default=MAX_INPUT_READ,
         help='maximum data size for read at once')
-    parser.add_argument('files', metavar='file', type=str, nargs='*',
+    parser.add_argument('files', metavar='FILE', type=str, nargs='*',
         help='list of files (stdin by default)')
 
     parser.set_defaults(mode='calculate')
