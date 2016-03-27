@@ -272,6 +272,7 @@ def parse_args(argv):
         help='maximum data size for read at once')
     parser.add_argument('files', metavar='FILE', type=str, nargs='*',
         help='list of files (stdin by default)')
+    parser.add_argument('--version', '-v', action="version", version="%%(prog)s %s" % __version__)
 
     parser.set_defaults(mode='calculate')
 
