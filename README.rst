@@ -198,6 +198,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+v2.1.0
+~~~~~~
+
+-  added --version switch
+
 v2.0.0
 ~~~~~~
 

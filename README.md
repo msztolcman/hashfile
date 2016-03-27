@@ -176,6 +176,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+### v2.1.0
+
+* added --version switch
+
 ### v2.0.0
 
 * added compatibility with tools like md5sum or sha1sum (verify mode,
