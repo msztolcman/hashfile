@@ -13,14 +13,14 @@ def validate_python_version():
 validate_python_version()
 
 
-from codecs import open
-from os import path
+import codecs
+import os.path
 from setuptools import setup, find_packages
 
 
-BASE_DIR = path.abspath(path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-with open(path.join(BASE_DIR, 'README.rst'), encoding='utf-8') as f:
+with codecs.open(os.path.join(BASE_DIR, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
