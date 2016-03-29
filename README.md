@@ -176,6 +176,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+### v2.1.1
+
+* small improvements for setup.py and PyPI
+
 ### v2.1.0
 
 * added --version switch
