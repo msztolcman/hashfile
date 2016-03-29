@@ -49,7 +49,7 @@ Examples
 Current stable version
 ----------------------
 
-2.1.1
+2.1.2
 
 Python version
 --------------
@@ -116,21 +116,21 @@ Simplest way is to use Python's built-in package system:
 
 3. Using sources
 
-Download sources from [Github](https://github.com/msztolcman/hashfile/archive/2.1.1.zip):
+Download sources from [Github](https://github.com/msztolcman/hashfile/archive/2.1.2.zip):
 
-    wget -O 2.1.1.zip https://github.com/msztolcman/hashfile/archive/2.1.1.zip
+    wget -O 2.1.2.zip https://github.com/msztolcman/hashfile/archive/2.1.2.zip
     
 or
 
-    curl -o 2.1.1.zip https://github.com/msztolcman/hashfile/archive/2.1.1.zip
+    curl -o 2.1.2.zip https://github.com/msztolcman/hashfile/archive/2.1.2.zip
 
 Unpack:
 
-    unzip 2.1.1.zip
+    unzip 2.1.2.zip
 
 And install
 
-    cd hashfile-2.1.1
+    cd hashfile-2.1.2
     python setup.py install
 
 Voila!
