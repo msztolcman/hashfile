@@ -111,9 +111,9 @@ Simplest way is to use Python's built-in package system:
     pip install hashfile
 
 2. Using [pipsi](https://github.com/mitsuhiko/pipsi)
-  
+
     pipsi install hashfile
-  
+
 3. Using sources
 
 Download sources from [Github](https://github.com/msztolcman/hashfile/archive/2.1.0.zip):
