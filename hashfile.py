@@ -19,7 +19,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-__version__ = '2.1.2'
+__version__ = '2.1.3'
 
 MAX_INPUT_READ = 4*1024**2
 DEFAULT_ALGORITHM = 'sha1'
