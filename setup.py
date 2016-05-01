@@ -33,9 +33,10 @@ setup(
     author_email='marcin@urzenia.net',
     license='MIT',
 
-    package_data={'': ['LICENSE']},
+    packages=['hashfile'],
+    package_data={'': ['LICENSE', 'VERSION']},
+    package_dir={'hashfile': 'hashfile'},
     include_package_data=True,
-    py_modules = ['hashfile'],
     install_requires=['argparse'],
 
     keywords=['security', 'hash', 'checksum',
