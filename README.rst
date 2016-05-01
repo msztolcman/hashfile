@@ -198,6 +198,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+v2.1.3
+~~~~~~
+
+-  fixed working with aliases
+
 v2.1.2
 ~~~~~~
 
