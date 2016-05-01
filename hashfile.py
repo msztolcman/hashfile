@@ -282,10 +282,12 @@ def parse_args(argv):
     if args.mode != 'check' and (args.quiet or args.status or args.warn):
         parser.error('--quiet, --status and --warn options are available only with --check option')
 
-    if len(args.algorithm) == 0:
-        args.algorithm = [DEFAULT_ALGORITHM, ]
+    if len(args.algorithm) > 0:
+        pass
     elif os.path.basename(sys.argv[0]) in AVAILABLE_ALGORITHMS:
         args.algorithm = [os.path.basename(sys.argv[0]), ]
+    else:
+        args.algorithm = [DEFAULT_ALGORITHM, ]
 
     if not args.files:
         args.files = ['-']
