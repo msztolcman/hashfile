@@ -1,3 +1,5 @@
+distro: register clean build upload
+
 init:
 	pip install -r requirements.txt
 
