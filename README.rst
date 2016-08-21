@@ -198,6 +198,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ChangeLog
 ---------
 
+v2.1.4
+~~~~~~
+
+-  fixed working with binary files
+-  hashfile is now a package
+-  some package-related changes
+-  few updates to Makefile
+
 v2.1.3
 ~~~~~~
 

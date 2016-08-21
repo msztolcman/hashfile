@@ -25,7 +25,7 @@ with codecs.open(os.path.join(BASE_DIR, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='hashfile',
-    version='2.1.3',
+    version='2.1.4',
     description='calculate hash or checksum',
     long_description=long_description,
     url='http://msztolcman.github.io/hashfile/',
