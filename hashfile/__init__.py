@@ -30,6 +30,8 @@ VERIFICATION_OK = 'OK'
 VERIFICATION_FAIL = 'FAILED'
 
 
+PY3 = sys.version_info >= (3, 0)
+
 # pylint: disable=missing-docstring
 def _get_available_hash_algorithms():
     try:
@@ -101,15 +103,28 @@ def hash_file(file_path, algo, max_input_read=4*1024**2):
     """
     hasher = hashlib.new(algo)
 
-    fh = open(file_path, 'rb') if file_path != '-' else sys.stdin
-    while True:
-        data = fh.read(max_input_read)
-        if not len(data):
-            break
+    if file_path == '-': # sys.stdin
+        fh = sys.stdin
+        if PY3:
+            fh = fh.buffer
 
-        hasher.update(data)
+        while True:
+            data = fh.read(max_input_read)
+            if not len(data):
+                break
 
-    if file_path != '-':
+            hasher.update(data)
+
+    else:
+        fh = open(file_path, 'rb')
+
+        while True:
+            data = fh.read(max_input_read)
+            if not len(data):
+                break
+
+            hasher.update(data)
+
         fh.close()
 
     return hasher.hexdigest()
