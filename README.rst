@@ -54,7 +54,7 @@ Examples
 Current stable version
 ----------------------
 
-2.1.3
+2.1.5
 
 Python version
 --------------
@@ -128,29 +128,29 @@ Simplest way is to use Python's built-in package system:
 3. Using sources
 
 Download sources from
-`Github <https://github.com/msztolcman/hashfile/archive/2.1.3.zip>`__:
+`Github <https://github.com/msztolcman/hashfile/archive/2.1.5.zip>`__:
 
 ::
 
-    wget -O 2.1.3.zip https://github.com/msztolcman/hashfile/archive/2.1.3.zip
+    wget -O 2.1.5.zip https://github.com/msztolcman/hashfile/archive/2.1.5.zip
 
 or
 
 ::
 
-    curl -o 2.1.3.zip https://github.com/msztolcman/hashfile/archive/2.1.3.zip
+    curl -o 2.1.5.zip https://github.com/msztolcman/hashfile/archive/2.1.5.zip
 
 Unpack:
 
 ::
 
-    unzip 2.1.3.zip
+    unzip 2.1.5.zip
 
 And install
 
 ::
 
-    cd hashfile-2.1.3
+    cd hashfile-2.1.5
     python setup.py install
 
 Voila!
@@ -197,6 +197,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ChangeLog
 ---------
+
+v2.1.5
+~~~~~~
+
+-  fixed reading binary data from stdin
 
 v2.1.4
 ~~~~~~
