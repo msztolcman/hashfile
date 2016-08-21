@@ -101,13 +101,12 @@ def hash_file(file_path, algo, max_input_read=4*1024**2):
     """
     hasher = hashlib.new(algo)
 
-    fh = open(file_path, 'r') if file_path != '-' else sys.stdin
+    fh = open(file_path, 'rb') if file_path != '-' else sys.stdin
     while True:
         data = fh.read(max_input_read)
         if not len(data):
             break
 
-        data = data.encode()
         hasher.update(data)
 
     if file_path != '-':
