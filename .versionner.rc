@@ -10,7 +10,7 @@ tag = yes
 tag_params =
 commit_message = '%(version)s'
 
-[file:hashfile.py]
+[file:hashfile/__init__.py]
 enabled = true
 match = line
 search = ^\s*__version__\s*=.*$
