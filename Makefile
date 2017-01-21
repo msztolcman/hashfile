@@ -13,7 +13,9 @@ clean:
 	-rm -fr dist
 	-rm -fr __pycache__
 	-rm -fr hashfile/__pycache__
+	-rm -fr test/__pycache__
 	-rm -fr build
+	-find test hashfile -iname '*.pyc' -delete
 
 build:
 	python3 setup.py sdist
