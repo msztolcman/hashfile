@@ -1,5 +1,5 @@
 hashfile
-=======
+========
 
 `hashfile` calculates hashes or checksums in many formats, also verify them.
 
@@ -8,6 +8,8 @@ algorithm name (ie. using symlinks).
 
 `hashfile` works pretty well with big files, because always read data partially, by default 4MB of data at once (it can be changed using
 `--max-input-read` param).
+
+If you like this tool, just [say thanks](https://saythanks.io/to/msztolcman).
 
 Examples
 --------
