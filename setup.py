@@ -25,7 +25,7 @@ with codecs.open(os.path.join(BASE_DIR, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='hashfile',
-    version='2.1.5',
+    version='2.1.6',
     description='calculate hash or checksum',
     long_description=long_description,
     url='http://msztolcman.github.io/hashfile/',
@@ -41,8 +41,7 @@ setup(
 
     keywords=['security', 'hash', 'checksum',
         'sha', 'sha1', 'md5', 'sha224', 'sha256', 'sha384', 'sha512',
-        'crc32', 'adler32',
-        'md4', 'mdc2', 'ripemd160', 'whirlpool'],
+        'crc32', 'adler32', 'md4', 'mdc2', 'ripemd160', 'whirlpool'],
 
     entry_points={
         'console_scripts': [
@@ -63,6 +62,7 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 )
 

@@ -19,7 +19,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-__version__ = '2.1.5'
+__version__ = '2.1.6'
 
 MAX_INPUT_READ = 4*1024**2
 DEFAULT_ALGORITHM = 'sha1'
@@ -103,18 +103,22 @@ def hash_file(file_path, algo, max_input_read=4*1024**2):
     """
     hasher = hashlib.new(algo)
 
-    if file_path == '-': # sys.stdin
+    if file_path == '-' and not hasattr(hash_file, 'data'): # sys.stdin
         fh = sys.stdin
         if PY3:
             fh = fh.buffer
 
+        hash_file.data = []
         while True:
             data = fh.read(max_input_read)
+            hash_file.data.append(data)
             if not len(data):
                 break
 
             hasher.update(data)
-
+    elif file_path == '-':
+        for line in hash_file.data:
+            hasher.update(line)
     else:
         fh = open(file_path, 'rb')
 
@@ -166,13 +170,11 @@ def mode_generate_algo_symlinks(args):
 
 def mode_calculate(args):
     """
-    Calculate hases and pront them to stdout
+    Calculate hashes and print them to stdout
     :param args:
     :return:
     """
-    for i, filename in enumerate(args.files):
-        algo = args.algorithm[i] if len(args.algorithm) > i else args.algorithm[-1]
-
+    def _process_file(filename, algo):
         file_helper = FILE_HELPERS[algo]
         try:
             filehash = file_helper(filename, algo=algo, max_input_read=args.max_input_read)
@@ -181,6 +183,13 @@ def mode_calculate(args):
         else:
             print('%s: %s %s' % (algo, filehash, filename))
 
+    if len(args.files) == 1 and len(args.algorithm) > 1:
+        for algorithm in args.algorithm:
+            _process_file(args.files[0], algorithm)
+        return E_OK
+
+    for i, filename in enumerate(args.files):
+        _process_file(filename, args.algorithm[i] if len(args.algorithm) > i else args.algorithm[-1])
     return E_OK
 
 
