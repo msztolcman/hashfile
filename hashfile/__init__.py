@@ -10,6 +10,7 @@ from __future__ import print_function, unicode_literals
 import argparse
 import fileinput
 import hashlib
+import sha3
 import os
 import sys
 import zlib
@@ -38,9 +39,9 @@ def _get_available_hash_algorithms():
         available = hashlib.algorithms_available
     except AttributeError:
         try:
-            available = set(hashlib.algorithms)
+            available = set(hashlib.algorithms,sha3)
         except AttributeError:
-            available = {'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512'}
+            available = {'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512','keccak_224', 'keccak_256', 'keccak_384', 'keccak_512'}
 
     aliases = {
         'sha1': {'DSA', 'DSA-SHA', 'dsaEncryption', 'dsaWithSHA', 'ecdsa-with-SHA1'}

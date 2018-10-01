@@ -42,7 +42,7 @@ setup(
     keywords=['security', 'hash', 'checksum',
         'sha', 'sha1', 'md5', 'sha224', 'sha256', 'sha384', 'sha512',
         'crc32', 'adler32',
-        'md4', 'mdc2', 'ripemd160', 'whirlpool'],
+        'md4', 'mdc2', 'ripemd160', 'whirlpool' 'keccak_224', 'keccak_256', 'keccak_384', 'keccak_512']
 
     entry_points={
         'console_scripts': [
